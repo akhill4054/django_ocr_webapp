@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title_block %} Home {% endblock %}
+{% block body_block %}
+<div>
+  <p class="display-4 pl-4">Online OCR</p>
+  <p class="pl-4 pt-2 pb-2 bg-dark text-white" style="font-size: xx-large;">Convert Your Images to Text File or PDF</p>
+</div>
+<div class="col">
+  <div class="row">
+    <div class="col-6 pl-5 pr-4 pb-5 pt-4">
+      <form class="card p-4 col justify-content-center" style="min-height: 60vh;" method="post"
+        action="/upload/process/" enctype="multipart/form-data">
+        <div class="row ml-2">
+          {% csrf_token %}
+          <!-- <input type="file" name="image" accept="image/*" required="" id="id_image"> -->
+          <input type="file" name="image" accept="image/*" id="upload_image" required="" id="id_image">
+        </div>
+        <div class="mt-4 pl-2">
+          <p style="font-size: x-large;">Choose an image for OCR</p>
+          <p>We support 
+            {% for format in supported_formats %}
+            {{ format }}
+            {% endfor %}
+          </p>
+        </div>
+        <button class="btn btn btn-warning mt-4 text-white" type="submit">Upload and process</button>
+      </form>
+    </div>
+    <div class="col-6 pl-4 pr-5 pb-5 pt-4">
+      <div class="col justify-content-center card p-4" style="min-height: 60vh;">
+        <div class="row justify-content-center">
+          {% load static %}
+          <img id="chosen_image" style="width: 50vh; height: 45vh;" src="{% static 'images/no_image.png' %}">
+        </div>
+        <div id="warn_no_img" class="row justify-content-center">
+          <p class="h3 text-secondary">No image chosen</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% load static %}
+<script type="text/javascript" src="{% static 'JS/home.js' %}"></script>
+{% endblock %}
